@@ -1,0 +1,17 @@
+provider "aws" {
+region ="ap-southeast-1"
+ }
+
+
+import {
+  id = "i-08294b14b60fb0189"
+  to = aws_instance.bujji
+}
+
+
+commands
+we are imported from aws to terraform
+terraform init
+terraform plan -generate-config-out=main.tf
+delete the ip6 information
+terraform import aws_instance.instance name instance id
