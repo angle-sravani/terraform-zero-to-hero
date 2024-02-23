@@ -1,0 +1,56 @@
+
+What are Dynamic Blocks?
+Dynamic blocks are a new feature in Terraform 0.12 and later versions. They allow you to create multiple instances of a resource block with a single configuration.
+With dynamic blocks, you can create reusable infrastructure resources that can be used across different environments. For example, you can use dynamic blocks to create
+multiple security groups for different environments such as development, staging, and production.
+
+Dynamic blocks are similar to `for_each` loops in that they both allow you to create multiple instances of a resource block. 
+However, dynamic blocks are more flexible than `for_each` loops because they allow you to create multiple instances of different resource blocks 
+with a single configuration.
+
+Benefits of Dynamic Blocks in Terraform
+Dynamic blocks offer several benefits in Terraform. First, they allow you to create reusable infrastructure resources that can be used across different environments.
+This saves you time and effort since you don’t have to manually create each resource block for every environment.
+
+provider "aws" {
+    region = "us-east-1"
+
+  }
+
+  resource "aws_instance" "sravani" {
+    ami           = "ami-06aa3f7caf3a30282"
+    instance_type = "t2.medium"
+    tags = {
+      Name = "bujji"
+    }
+  }
+
+
+  locals {
+ ingress_rules =[{
+ port = 443
+description = "nn"
+},
+{
+port =80
+description = "ss"
+}]
+}
+
+ resource "aws_security_group" "sc" {
+   dynamic "ingress" {
+ for_each = local.ingress_rules
+
+
+content {
+  description = ingress.value.description
+  from_port = ingress.value.port
+  to_port = ingress.value.port
+ protocol = "tcp"
+ cidr_blocks = ["0.0.0.0/0"]
+
+}
+}
+ tags = {
+ Name = "aws security group"
+}
