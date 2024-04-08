@@ -136,3 +136,56 @@ Q: What are some of the common plugins that you use in Jenkins ?
 
 A: Be prepared for answer, you need to have atleast 3-4 on top of your head, so that interview feels you use jenkins on a day-to-day basis.
 
+
+
+how to store credintials in azure pipelines ?
+  
+In Azure Pipelines, you can store credentials and other sensitive information securely using the Azure Pipelines variable groups or Azure Key Vault. Storing credentials securely is crucial to ensure the safety of your sensitive data. Here's how you can do it:
+
+Azure Pipelines Variable Groups:
+
+Azure Pipelines allows you to define variable groups that can be linked to one or more pipelines.
+Variable groups can store sensitive information like credentials, connection strings, API keys, etc.
+To create a variable group:
+In your Azure DevOps project, navigate to Pipelines > Library.
+Click on "+ Variable group" to create a new variable group.
+Add the necessary variables containing your credentials.
+Ensure to mark sensitive variables as "Keep this value secret".
+Once created, you can link this variable group to your pipeline.
+Azure Key Vault Integration:
+
+Azure Pipelines can integrate directly with Azure Key Vault, a cloud service for securely storing and managing secrets.
+To integrate Azure Key Vault with Azure Pipelines:
+Set up an Azure Key Vault if you haven't already.
+Grant the necessary permissions to Azure Pipelines to access the Key Vault.
+In your Azure Pipelines YAML or Classic editor, use Azure Key Vault task to retrieve secrets during pipeline execution.
+This approach ensures that sensitive information remains stored securely in Azure Key Vault and is only accessed during pipeline execution.
+Here's a simple example of how you can use Azure Key Vault in an Azure Pipelines YAML file:
+
+yaml
+Copy code
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: AzureKeyVault@1
+  inputs:
+    azureSubscriptionEndpoint: '<Name of the Azure service connection>'
+    keyVaultName: '<Name of your Azure Key Vault>'
+    secretsFilter: '*' # You can specify specific secrets if needed
+Replace <Name of the Azure service connection> with the name of your Azure service connection in Azure Pipelines, and <Name of your Azure Key Vault> with the name of your Azure Key Vault.
+
+
+
+
+
+
+
+
+
+
+
+
